@@ -74,16 +74,6 @@
   }
 }
 
-/* Floating animation */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 /* Background gradient animation */
 @keyframes gradientShift {
   0% {
@@ -113,6 +103,18 @@
   }
   50% {
     border-color: var(--neon-green);
+  }
+}
+
+/* Ripple effect animation */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
   }
 }
 
@@ -199,11 +201,12 @@
 /* Avatar animation */
 .avatar {
   transition: all 400ms cubic-bezier(0.2, 0.9, 0.2, 1);
-  animation: float 6s ease-in-out infinite;
+  /* Removed floating animation for better UX */
 }
 
 .avatar:hover {
-  animation: glowPulse 1.5s ease-in-out infinite, float 6s ease-in-out infinite;
+  animation: glowPulse 1.5s ease-in-out infinite;
+  /* Removed floating animation - no bobbing effect */
 }
 
 /* Link animations */
@@ -306,6 +309,41 @@ a, button, input, textarea, select {
   will-change: transform, opacity;
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+/* Ripple effect for click feedback */
+.btn, .link-pill, .card, .project {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before, .link-pill::before, .card::before, .project::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0,191,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.btn.ripple-effect::before, .link-pill.ripple-effect::before, 
+.card.ripple-effect::before, .project.ripple-effect::before {
+  width: 300px;
+  height: 300px;
+  transition: width 0.6s ease-out, height 0.6s ease-out, opacity 0.6s ease-out;
+  opacity: 0;
+}
+
+/* Ensure content stays above ripple */
+.btn > *, .link-pill > *, .card > *, .project > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Reduce motion preferences */
