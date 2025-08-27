@@ -1,0 +1,26 @@
+# Development files
+.DS_Store
+.vscode/
+*.log
+node_modules/
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
