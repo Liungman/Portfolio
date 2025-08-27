@@ -1,0 +1,246 @@
+/* Animations and Effects - Malte Liungman Portfolio */
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 680ms ease, transform 680ms ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Typing animation for hero text */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--accent); }
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 3px solid var(--accent);
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* Glowing effects */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.2); }
+  50% { box-shadow: 0 0 30px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.2); }
+}
+
+.glow-effect {
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Particle background effect */
+@keyframes particles-float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-40px) translateX(-5px); }
+  75% { transform: translateY(-20px) translateX(-10px); }
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: particles-float 15s ease-in-out infinite;
+}
+
+.particle:nth-child(odd) {
+  animation-delay: -2s;
+  background: var(--accent-2);
+}
+
+.particle:nth-child(3n) {
+  animation-delay: -4s;
+  background: var(--accent-3);
+}
+
+/* Progress bar loading */
+@keyframes progress-load {
+  0% { width: 0%; }
+  100% { width: var(--progress-width); }
+}
+
+.skill-progress {
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.skill-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  animation: progress-load 2s ease-out forwards;
+  box-shadow: 0 0 10px rgba(0,255,136,0.3);
+}
+
+/* Neon text effect */
+.neon-text {
+  color: var(--accent);
+  text-shadow: 
+    0 0 5px var(--accent),
+    0 0 10px var(--accent),
+    0 0 20px var(--accent),
+    0 0 40px var(--accent);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 400ms var(--ease-cubic);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-hover::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  border-radius: var(--radius);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.card-hover:hover::before {
+  opacity: 0.1;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,255,136,0.15);
+}
+
+/* Button pulse effect */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(0,255,136,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); }
+}
+
+.btn-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Gradient animation */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animated-gradient {
+  background: linear-gradient(-45deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0,255,136,0.1);
+  border-top: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  transition: all 300ms var(--ease-cubic);
+}
+
+/* Scale on hover */
+.scale-hover:hover {
+  transform: scale(1.05);
+}
+
+/* Fade in from different directions */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 600ms ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 600ms ease;
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 600ms ease;
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered animation delays */
+.stagger-1 { transition-delay: 100ms; }
+.stagger-2 { transition-delay: 200ms; }
+.stagger-3 { transition-delay: 300ms; }
+.stagger-4 { transition-delay: 400ms; }
+.stagger-5 { transition-delay: 500ms; }
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, 
+  .card, 
+  .btn,
+  .typing-animation,
+  .glow-effect,
+  .float-animation,
+  .particle,
+  .card-hover {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

@@ -1,483 +1,329 @@
-<!doctype html>
-<html lang="no">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Malte Liungman — Portfolio</title>
-  <meta name="description" content="Malte Liungman — VG2 IT student at Charlottenlund VGS. Looking for apprenticeship. Projects, schedule, contact." />
-  <style>
-    :root{
-      --bg-0:#020306;
-      --bg-1:#071130;
-      --card:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      --accent:#1f4fff;
-      --accent-2:#00a0ff;
-      --muted:#98a4b2;
-      --text:#d8dbe0;
-      --glass-border: rgba(31,79,255,0.06);
-      --radius:16px;
-      --shadow: 0 8px 40px rgba(2,6,23,0.6);
-      --ease-cubic: cubic-bezier(.2,.9,.2,1);
-      --hover-lift:8px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, Arial;
-      color:var(--text);
-      background: radial-gradient(1200px 600px at 6% 10%, rgba(7,17,48,0.8) 0%, transparent 22%),
-                  linear-gradient(120deg,#000 0%, var(--bg-1) 60%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:28px;
-      scroll-behavior:smooth;
-    }
-
-    /* progress bar */
-    #scroll-progress{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;z-index:9999;border-bottom-left-radius:3px;border-bottom-right-radius:3px}
-
-    .page{max-width:1200px;margin:0 auto}
-    .parallax-bg{position:fixed;inset:0;background:
-      radial-gradient(ellipse at top left, rgba(15,30,60,0.65) 0%, transparent 40%),
-      radial-gradient(ellipse at bottom right, rgba(12,7,28,0.35) 0%, transparent 45%);z-index:-1;pointer-events:none}
-
-    /* Header / hero */
-    header{
-      background:var(--card);
-      padding:36px;
-      border-radius:24px;
-      border:1px solid var(--glass-border);
-      box-shadow:var(--shadow);
-      display:flex;
-      gap:28px;
-      align-items:center;
-      margin-bottom:18px;
-    }
-    .hero-left{flex:1; min-width:0}
-    h1{margin:0;font-size:2.6rem;line-height:1;color:var(--accent);letter-spacing:-0.02em}
-    .hero-sub{margin:6px 0 0 0;color:var(--muted);font-weight:600}
-    .hero-desc{margin-top:14px;color:var(--text);max-width:58ch}
-    .hero-cta{display:inline-flex;gap:10px;margin-top:18px;align-items:center}
-    .btn{
-      background:linear-gradient(180deg,var(--accent),var(--accent-2));
-      color:white;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(31,79,255,0.12);
-      transition:transform 360ms var(--ease-cubic),box-shadow 360ms var(--ease-cubic);
-    }
-    .btn.secondary{
-      background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text);font-weight:600;padding:10px 14px;border-radius:12px;
-    }
-    .btn:hover{transform:translateY(calc(-1 * var(--hover-lift)));box-shadow:0 20px 60px rgba(31,79,255,0.12)}
-
-    .hero-right{width:220px;flex-shrink:0;text-align:right}
-    .avatar{
-      width:120px;height:120px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:inline-block;
-      box-shadow:0 10px 30px rgba(31,79,255,0.12);border:4px solid rgba(255,255,255,0.02)
-    }
-    .meta-small{color:var(--muted);font-size:0.92rem;margin-top:8px}
-
-    /* grid */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:18px}
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      position:relative;
-      overflow:visible;
-      border:1px solid var(--glass-border);
-      box-shadow:0 6px 28px rgba(11,18,28,0.6);
-      transition:transform 520ms var(--ease-cubic),box-shadow 520ms var(--ease-cubic);
-    }
-    .card:hover{transform:translateY(calc(-1*var(--hover-lift)));box-shadow:0 22px 70px rgba(31,79,255,0.12)}
-    .card::after{content:"";position:absolute;inset:-6px;border-radius:calc(var(--radius)+6px);background:conic-gradient(from 120deg,var(--accent),transparent 40%,var(--accent-2));filter:blur(10px);opacity:0.05;pointer-events:none}
-    .card > *{position:relative;z-index:2}
-
-    /* placements (responsive-friendly) */
-    /* use intuitive column spans */
-    #now-card{position:fixed;right:18px;top:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px 14px;border-radius:12px;color:var(--text);backdrop-filter:blur(6px);box-shadow:0 8px 30px rgba(8,10,18,0.6);z-index:1000;border:1px solid rgba(255,255,255,0.02)}
-    #now-time{font-weight:800;color:var(--accent-2);font-variant-numeric:tabular-nums}
-    #now-next{font-size:0.86rem;color:var(--muted);max-width:220px;margin-top:6px}
-
-    /* columns */
-    .col-4{grid-column:span 4}
-    .col-8{grid-column:1/span 8}
-    .col-6{grid-column:span 6}
-    .col-12{grid-column:1/-1}
-
-    /* small components */
-    h2{color:var(--accent-2);margin:0 0 12px 0}
-    .muted{color:var(--muted);font-size:0.9rem}
-    .timeline{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .pill{background:rgba(255,255,255,0.02);padding:8px;border-radius:10px}
-    .spotify-embed{width:100%;border-radius:12px;overflow:hidden;border:0}
-
-    table{width:100%;border-collapse:collapse;background:transparent}
-    th,td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03);font-size:0.95rem}
-    th{color:var(--accent);text-transform:uppercase;font-size:0.78rem;text-align:left}
-
-    /* timetable visuals */
-    #timetable{position:relative;margin-bottom:12px}
-    .time-grid{display:flex;gap:0;align-items:center;color:var(--muted);font-size:0.85rem}
-    .time-cell{flex:1;text-align:center;padding:6px 4px;border-right:1px dashed rgba(255,255,255,0.03)}
-    #slots{background:transparent;position:relative;height:72px;margin-top:8px}
-    .slot{position:absolute;top:0;height:72px;border-radius:10px;padding:10px;color:var(--text);background:linear-gradient(180deg,rgba(31,79,255,0.08),rgba(0,122,204,0.06));border:1px solid rgba(31,79,255,0.06);box-shadow:0 6px 22px rgba(8,12,24,0.45);display:flex;flex-direction:column;justify-content:center;font-size:0.9rem}
-    .slot .meta{font-size:0.78rem;color:var(--muted);margin-top:6px}
-    .slot.current{background:linear-gradient(180deg,rgba(31,79,255,0.18),rgba(0,122,204,0.12));box-shadow:0 10px 30px rgba(31,79,255,0.18)}
-    tbody tr.current-row{background:linear-gradient(90deg,rgba(31,79,255,0.03),transparent)}
-
-    /* reveal */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity 680ms ease,transform 680ms ease} .reveal.visible{opacity:1;transform:none}
-    /* projects grid */
-    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .project{padding:14px;border-radius:12px;background:rgba(255,255,255,0.02);min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
-    .project h3{margin:0;font-size:1.05rem}
-    .project p{margin:8px 0 0 0;color:var(--muted);font-size:0.92rem}
-
-    /* contact */
-    .contact-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .link-pill{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);text-decoration:none;color:var(--text);font-weight:600}
-
-    /* responsive */
-    @media (max-width:980px){
-      .projects-grid{grid-template-columns:repeat(2,1fr)}
-      .hero-right{display:none}
-      .col-8{grid-column:1/-1}
-      .col-4{grid-column:1/-1}
-      .col-6{grid-column:1/-1}
-      .col-12{grid-column:1/-1}
-    }
-    @media (max-width:520px){
-      header{padding:18px;border-radius:14px}
-      h1{font-size:1.6rem}
-      .projects-grid{grid-template-columns:repeat(1,1fr)}
-      body{padding:18px}
-      #now-card{display:none}
-    }
-
-    /* reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      .reveal, .card, .btn {transition:none !important; transform:none !important}
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Malte Liungman — IT Student & Aspiring Developer</title>
+  <meta name="description" content="Malte Liungman - VG2 IT student at Charlottenlund VGS, Trondheim. Looking for apprenticeship opportunities. Professional portfolio showcasing technical skills and work experience.">
+  <meta name="keywords" content="IT student, apprenticeship, web development, networking, technical support, Trondheim, Norway">
+  <meta name="author" content="Malte Liungman">
+  
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Malte Liungman — IT Student & Aspiring Developer">
+  <meta property="og:description" content="Professional portfolio showcasing technical skills and work experience">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://liungman.github.io/Portfolio">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
+  <!-- Background elements -->
   <div class="parallax-bg" aria-hidden="true"></div>
   <div id="scroll-progress" aria-hidden="true"></div>
 
-  <div id="now-card" title="Klokke og neste økt">
-    <div id="now-time">--:--:--</div>
-    <div id="now-next">Laster...</div>
-  </div>
-
   <div class="page">
-    <header aria-label="Introduksjon">
+    <!-- Hero Section -->
+    <header aria-label="Introduction" class="card-hover">
       <div class="hero-left">
-        <h1>Malte Liungman</h1>
-        <div class="hero-sub">18 år · VG2 Informasjonsteknologi · Charlottenlund VGS</div>
-        <div class="hero-desc">IT-student på utkikk etter lærlingplass. Jeg jobber med web, systemadministrasjon og utvikling — liker tydelig UI, gode rutiner og smarte løsninger.</div>
+        <h1 class="hero-title neon-text">Malte Liungman</h1>
+        <div class="hero-sub">IT Student & Aspiring Developer</div>
+        <div class="hero-sub">VG2 at Charlottenlund VGS, Trondheim</div>
+        <div class="hero-desc">Professional IT student seeking apprenticeship opportunities. Experienced in technical support, network administration, and web development. Passionate about solving complex problems with modern solutions.</div>
 
         <div class="hero-cta">
-          <a class="btn" href="#projects">Se prosjekter</a>
-          <a class="btn secondary" href="#contact">Kontakt</a>
+          <a class="btn btn-pulse" href="#experience">View Experience</a>
+          <a class="btn secondary" href="#contact">Get in Touch</a>
         </div>
       </div>
 
       <div class="hero-right" aria-hidden="true">
-        <div class="avatar" title="Malte" role="img" aria-label="Avatar placeholder"></div>
-        <div class="meta-small">Malte · IT · Charlottenlund VGS</div>
+        <div class="avatar float-animation" title="Malte Liungman" role="img" aria-label="Professional avatar"></div>
+        <div class="meta-small">Ready for apprenticeship opportunities</div>
       </div>
     </header>
 
-    <main class="grid" id="main-grid" aria-live="polite">
+    <main class="grid" id="main-grid">
 
-      <!-- Left column cards -->
-      <section id="bus-info" class="card col-4 reveal" aria-labelledby="bus-title">
-        <h2 id="bus-title">Bussreise</h2>
-        <div class="timeline">
-          <div class="pill">Breidablikk 3<br><span class="muted">Buss 13</span></div>
-          <div style="color:var(--accent-2);font-weight:700">→</div>
-          <div class="pill">Lerkendal 4<br><span class="muted">Bytte</span></div>
-          <div style="color:var(--accent-2);font-weight:700">→</div>
-          <div class="pill">Strindheim<br><span class="muted">Buss 14 via Brundalen</span></div>
+      <!-- About Section -->
+      <section id="about" class="card col-12 reveal fade-in-up" aria-labelledby="about-h">
+        <h2 id="about-h">About Me</h2>
+        <p>I'm a dedicated IT student at Charlottenlund VGS with hands-on experience in technical support, network administration, and event management. My goal is to secure an apprenticeship where I can apply my technical skills while continuing to learn and grow in the IT field.</p>
+        <p>I thrive in collaborative environments and enjoy helping others solve technical challenges. My experience ranges from helpdesk support to managing technical infrastructure for large-scale events.</p>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="card col-12 reveal fade-in-up" aria-labelledby="experience-h">
+        <h2 id="experience-h">Professional Experience</h2>
+        
+        <div class="experience-item card-hover stagger-1">
+          <div class="experience-title">IT Support Specialist</div>
+          <div class="experience-company">Charlottenlund VGS, Trondheim • 2025-2026</div>
+          <div class="experience-desc">Helpdesk IKT - Providing comprehensive IT support to students and faculty</div>
+          <ul class="experience-responsibilities">
+            <li>Resolved IT problems for students and staff at school helpdesk</li>
+            <li>Performed hardware and software troubleshooting across diverse systems</li>
+            <li>Provided user support for various systems and network solutions</li>
+            <li>Contributed to maintaining smooth daily IT operations</li>
+            <li>Documented solutions and maintained knowledge base for common issues</li>
+          </ul>
+        </div>
+
+        <div class="experience-item card-hover stagger-2">
+          <div class="experience-title">IT Responsible & Event Guide</div>
+          <div class="experience-company">Charkaden Gaming Event • Charlottenlund VGS • 2025</div>
+          <div class="experience-desc">Technical leadership for gaming event infrastructure</div>
+          <ul class="experience-responsibilities">
+            <li>Responsible for technical network and equipment setup</li>
+            <li>Configured networks and provided technical solutions during the event</li>
+            <li>Collaborated closely with live-streaming team for broadcast quality</li>
+            <li>Guided participants and guests throughout the event</li>
+            <li>Ensured reliable connectivity for competitive gaming activities</li>
+          </ul>
+        </div>
+
+        <div class="experience-item card-hover stagger-3">
+          <div class="experience-title">Conference Guide & Assistant</div>
+          <div class="experience-company">NKUL IKT-Konferansen • 2025</div>
+          <div class="experience-desc">National conference on ICT use in education and learning</div>
+          <ul class="experience-responsibilities">
+            <li>Guided participants to correct presentations and conference rooms</li>
+            <li>Assisted speakers and companies with practical and technical needs</li>
+            <li>Contributed to the successful execution of the main conference</li>
+            <li>Provided multilingual support for international attendees</li>
+            <li>Coordinated with event organizers to ensure smooth operations</li>
+          </ul>
         </div>
       </section>
 
-      <section id="yunglean" class="card col-4 reveal" aria-labelledby="yl">
-        <h2 id="yl">Yung Lean</h2>
-        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Yung_Lean%2C_Clout_Festival_2024_03_%28cropped%29.jpg/800px-Yung_Lean%2C_Clout_Festival_2024_03_%28cropped%29.jpg" alt="Yung Lean" style="width:120px;border-radius:10px;box-shadow:0 6px 18px rgba(31,79,255,0.08)">
-          <div>
-            <strong>Yung Lean</strong>
-            <div class="muted" style="margin-top:6px;">Svensk rapper og sanger. Favorittlåt: Yoshi City</div>
+      <!-- Skills Section -->
+      <section id="skills" class="card col-6 reveal fade-in-left" aria-labelledby="skills-h">
+        <h2 id="skills-h">Technical Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <span class="skill-name">HTML/CSS</span>
+            <span class="skill-level">Expert</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="90"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">JavaScript</span>
+            <span class="skill-level">Advanced</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="80"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Python</span>
+            <span class="skill-level">Intermediate</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="75"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Network Administration</span>
+            <span class="skill-level">Advanced</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="85"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Windows Server</span>
+            <span class="skill-level">Intermediate</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="70"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Linux</span>
+            <span class="skill-level">Intermediate</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="65"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Hardware Support</span>
+            <span class="skill-level">Expert</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="90"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">User Support</span>
+            <span class="skill-level">Expert</span>
+            <div class="skill-progress">
+              <div class="skill-progress-fill" data-level="95"></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="song" class="card col-4 reveal" aria-labelledby="song-now">
-        <h2 id="song-now">Spiller nå</h2>
-        <div class="spotify-list" aria-hidden="false">
-          <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/5q7k1qYCqp2PeGIdSF8pNm?utm_source=generator" width="100%" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/6hE4M1OIhQzHyAZCxffY8x?utm_source=generator" width="100%" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <!-- Education & Certifications -->
+      <section id="education" class="card col-6 reveal fade-in-right" aria-labelledby="education-h">
+        <h2 id="education-h">Education & Qualifications</h2>
+        
+        <div class="experience-item">
+          <div class="experience-title">VG2 Information Technology</div>
+          <div class="experience-company">Charlottenlund VGS, Trondheim • 2024-2026</div>
+          <div class="experience-desc">Comprehensive IT education focusing on practical skills and industry readiness</div>
+          <ul class="experience-responsibilities">
+            <li>Network administration and configuration</li>
+            <li>Web development and programming</li>
+            <li>System administration and maintenance</li>
+            <li>User support and helpdesk operations</li>
+            <li>Project management and documentation</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-title">Technical Competencies</div>
+          <div class="experience-company">Industry-Standard Skills</div>
+          <ul class="experience-responsibilities">
+            <li>Network protocols and configuration</li>
+            <li>Hardware troubleshooting and repair</li>
+            <li>Software deployment and maintenance</li>
+            <li>Documentation and knowledge management</li>
+            <li>Event technical coordination</li>
+          </ul>
         </div>
       </section>
 
-      <!-- schedule (wide) -->
-      <section id="schedule" class="card col-8 reveal" aria-labelledby="tp">
-        <h2 id="tp">Timeplan uke</h2>
-        <div id="timetable" aria-hidden="false">
-          <div class="time-grid"></div>
-          <div id="slots"></div>
-          <div id="now-line" aria-hidden="true" style="position:absolute;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent-2));box-shadow:0 0 8px rgba(31,79,255,0.6);opacity:0.95;pointer-events:none;transform:translateX(-1px)"></div>
-        </div>
-
-        <table>
-          <thead><tr><th>Tid</th><th>Fag</th><th>Rom</th><th>Lærer</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </section>
-
-      <section id="weather" class="card col-4 reveal" aria-labelledby="weather-h">
-        <h2 id="weather-h">Vær i Trondheim</h2>
-        <div style="margin-top:10px">
-          <a class="weatherwidget-io" href="https://forecast7.com/en/63d4310d40/trondheim/" data-label_1="TRONDHEIM" data-label_2="WEATHER" data-theme="original">TRONDHEIM WEATHER</a>
-        </div>
-      </section>
-
-      <!-- Projects -->
-      <section id="projects" class="card col-12 reveal" aria-labelledby="projects-h">
-        <h2 id="projects-h">Prosjekter</h2>
-        <div class="projects-grid" role="list">
-          <article class="project" role="listitem">
+      <!-- Projects Section -->
+      <section id="projects" class="card col-12 reveal fade-in-up" aria-labelledby="projects-h">
+        <h2 id="projects-h">Featured Projects</h2>
+        <div class="projects-grid stagger-animation" role="list">
+          
+          <article class="project stagger-item" role="listitem">
             <div>
-              <h3>Infoskjerm / Timeplan</h3>
-              <p>Interaktiv infoskjerm (dette prosjektet). Klokke, timeplanvisualisering og widgets.</p>
+              <h3>Professional Portfolio Website</h3>
+              <p>Modern, responsive portfolio showcasing technical skills and professional experience. Built with semantic HTML, CSS Grid, and vanilla JavaScript.</p>
             </div>
             <div class="muted">HTML · CSS · JavaScript</div>
           </article>
 
-          <article class="project" class="project" role="listitem">
+          <article class="project stagger-item" role="listitem">
             <div>
-              <h3>Personlig portfolio (this)</h3>
-              <p>Presentasjon rettet mot lærlingplass: prosjekter, CV og kontaktinformasjon.</p>
+              <h3>Network Configuration Project</h3>
+              <p>Designed and implemented network infrastructure for gaming events, ensuring reliable connectivity and optimal performance.</p>
             </div>
-            <div class="muted">Design · Frontend</div>
+            <div class="muted">Networking · Configuration · Support</div>
           </article>
 
-          <article class="project" role="listitem">
+          <article class="project stagger-item" role="listitem">
             <div>
-              <h3>Kommer snart</h3>
-              <p>Her vil flere skoleprosjekter og praktikanteksempler komme når du gir meg innhold.</p>
+              <h3>Helpdesk Knowledge Base</h3>
+              <p>Created comprehensive documentation system for common IT issues and solutions to improve support efficiency.</p>
             </div>
-            <div class="muted">—</div>
+            <div class="muted">Documentation · Knowledge Management</div>
           </article>
+
+          <article class="project stagger-item" role="listitem">
+            <div>
+              <h3>Event Technical Coordination</h3>
+              <p>Managed technical aspects of educational conferences and gaming events, coordinating with teams for seamless execution.</p>
+            </div>
+            <div class="muted">Project Management · Technical Support</div>
+          </article>
+
+          <article class="project stagger-item" role="listitem">
+            <div>
+              <h3>System Administration Scripts</h3>
+              <p>Developed automation scripts for routine maintenance tasks, improving efficiency and reducing manual errors.</p>
+            </div>
+            <div class="muted">Python · Automation · System Admin</div>
+          </article>
+
+          <article class="project stagger-item" role="listitem">
+            <div>
+              <h3>User Training Materials</h3>
+              <p>Created user-friendly guides and training materials for various software systems and IT procedures.</p>
+            </div>
+            <div class="muted">Training · Documentation · User Experience</div>
+          </article>
+
         </div>
       </section>
 
-      <!-- Contact -->
-      <section id="contact" class="card col-12 reveal" aria-labelledby="contact-h">
-        <h2 id="contact-h">Kontakt</h2>
-        <p class="muted">Ser etter lærlingplass — ta gjerne kontakt for CV, referanser eller kodevisning.</p>
-        <div style="margin-top:12px" class="contact-row">
-          <a class="link-pill" href="mailto:malte@example.com">malte@example.com</a>
-          <a class="link-pill" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="link-pill" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <!-- Contact Section -->
+      <section id="contact" class="card col-12 reveal fade-in-up" aria-labelledby="contact-h">
+        <h2 id="contact-h">Let's Connect</h2>
+        <p class="muted">Ready for apprenticeship opportunities and excited to contribute to your team. Let's discuss how my technical skills and passion for IT can benefit your organization.</p>
+        
+        <div style="margin-top: 20px" class="contact-row">
+          <a class="link-pill scale-hover" href="mailto:malte@liungman.no" aria-label="Send email to Malte">
+            <span>📧</span> malte@liungman.no
+          </a>
+          <a class="link-pill scale-hover" href="https://github.com/Liungman" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile">
+            <span>🔗</span> GitHub
+          </a>
+          <a class="link-pill scale-hover" href="https://linkedin.com/in/malteliungman" target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile">
+            <span>💼</span> LinkedIn
+          </a>
+          <a class="link-pill scale-hover" href="tel:+4712345678" aria-label="Call Malte">
+            <span>📞</span> +47 123 45 678
+          </a>
         </div>
+
+        <!-- Contact Form -->
+        <form class="contact-form" style="margin-top: 28px; max-width: 600px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div>
+              <label for="name" style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 600;">Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                required 
+                style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--card); color: var(--text); font-family: inherit;"
+                placeholder="Your name"
+              >
+            </div>
+            <div>
+              <label for="email" style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 600;">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--card); color: var(--text); font-family: inherit;"
+                placeholder="your.email@example.com"
+              >
+            </div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <label for="message" style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 600;">Message</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              rows="4" 
+              required 
+              style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--card); color: var(--text); font-family: inherit; resize: vertical;"
+              placeholder="Tell me about the apprenticeship opportunity..."
+            ></textarea>
+          </div>
+          <button type="submit" class="btn" style="width: auto; padding: 12px 24px;">
+            Send Message
+          </button>
+        </form>
       </section>
 
     </main>
 
-    <footer style="margin-top:28px;color:var(--muted);text-align:center">© <span id="year"></span> Malte Liungman — laget med ❤️</footer>
+    <!-- Footer -->
+    <footer style="margin-top: 28px; color: var(--muted); text-align: center; padding: 20px;">
+      <p>© <span id="year">2025</span> Malte Liungman — Crafted with passion for technology ⚡</p>
+      <p style="font-size: 0.9rem; margin-top: 8px;">Ready for apprenticeship opportunities • Trondheim, Norway</p>
+    </footer>
   </div>
 
-  <script>
-    // ---- schedule data (kept from your original) ----
-    const schedule = [
-      {day:1, start:'09:05', end:'09:50', title:'Norsk', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:1, start:'10:00', end:'10:45', title:'Norsk', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:1, start:'10:50', end:'11:35', title:'Norsk', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:1, start:'12:20', end:'13:05', title:'Samfunnskunnskap', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:1, start:'13:10', end:'13:55', title:'Samfunnskunnskap', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:1, start:'14:05', end:'14:50', title:'Kroppsøving vg2', room:'F-Ø0-077y', teacher:'Åge Wangberg'},
-      {day:1, start:'14:55', end:'15:40', title:'Kroppsøving vg2', room:'F-Ø0-077y', teacher:'Åge Wangberg'},
-      {day:2, start:'08:15', end:'09:00', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:2, start:'09:05', end:'09:50', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:2, start:'10:00', end:'10:45', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:2, start:'10:50', end:'11:35', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:2, start:'12:20', end:'13:05', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:2, start:'13:10', end:'13:55', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:2, start:'14:05', end:'14:50', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:2, start:'14:55', end:'15:40', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:3, start:'10:00', end:'10:45', title:'Norsk', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:3, start:'10:50', end:'11:35', title:'Norsk', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:3, start:'12:20', end:'13:05', title:'2IT1 - Kl.time/Prog.fag', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:3, start:'13:10', end:'13:55', title:'Yrkesfaglig fordypning vg2', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:3, start:'14:05', end:'14:50', title:'Yrkesfaglig fordypning vg2', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:3, start:'14:55', end:'15:40', title:'Yrkesfaglig fordypning vg2', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'08:15', end:'09:00', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'09:05', end:'09:50', title:'Brukerstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'10:00', end:'10:45', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'10:50', end:'11:35', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'12:20', end:'13:05', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:4, start:'13:10', end:'13:55', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:5, start:'08:15', end:'09:00', title:'Samfunnskunnskap', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:5, start:'09:05', end:'09:50', title:'Samfunnskunnskap', room:'A-Ø2-088', teacher:'Kari Katharina Endresen'},
-      {day:5, start:'10:00', end:'10:45', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:5, start:'10:50', end:'11:35', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:5, start:'12:20', end:'13:05', title:'Utvikling', room:'C-V2-066', teacher:'Iril Straumbotn'},
-      {day:5, start:'13:10', end:'13:55', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:5, start:'14:05', end:'14:50', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'},
-      {day:5, start:'14:55', end:'15:40', title:'Driftsstøtte', room:'C-V2-066', teacher:'Jason Edward Ready'}
-    ];
-
-    // quick helpers
-    function parseTime(str){ const [hh,mm] = str.split(':').map(Number); return {hh,mm}; }
-    const abbrev = {
-      'Samfunnskunnskap':'Samf','Kroppsøving vg2':'Kropp','Yrkesfaglig fordypning vg2':'YFF',
-      '2IT1 - Kl.time/Prog.fag':'2IT1','Brukerstøtte':'Bruk','Utvikling':'Dev','Driftsstøtte':'Drift','Norsk':'Norsk'
-    };
-
-    function getTodaysEntries(day){ return schedule.filter(s => s.day === day).sort((a,b)=>{ const pa = parseTime(a.start); const pb = parseTime(b.start); return pa.hh - pb.hh || pa.mm - pb.mm; }); }
-
-    function renderTimetableGrid(){
-      const grid = document.querySelector('.time-grid');
-      grid.innerHTML = '';
-      for(let h=8; h<=15; h++){
-        const cell = document.createElement('div'); cell.className='time-cell';
-        const label = String(h).padStart(2,'0')+':00'; cell.textContent = label; grid.appendChild(cell);
-      }
-    }
-
-    function renderSlotsForToday(){
-      const slots = document.getElementById('slots'); slots.innerHTML='';
-      const now = new Date(); const today = now.getDay(); const entries = getTodaysEntries(today);
-      const dayStart = 8*60; const dayEnd = 16*60; const total = dayEnd - dayStart;
-      entries.forEach((e,idx)=>{
-        const s = parseTime(e.start); const en = parseTime(e.end);
-        const startMin = s.hh*60 + s.mm; const endMin = en.hh*60 + en.mm;
-        const leftPct = (startMin - dayStart) / total * 100; const widthPct = Math.max(3, (endMin - startMin) / total * 100);
-        const div = document.createElement('div'); div.className='slot'; div.style.left = leftPct + '%'; div.style.width = widthPct + '%';
-        div.dataset.idx = idx;
-        const short = abbrev[e.title] || e.title;
-        div.setAttribute('title', e.title);
-        div.innerHTML = `<strong>${short}</strong><div class="meta">${e.room} • ${e.teacher}</div>`;
-        slots.appendChild(div);
-      });
-    }
-
-    function updateNowLineAndHighlight(){
-      const now = new Date(); const today = now.getDay();
-      const dayStart = 8*60; const dayEnd = 16*60; const total = dayEnd - dayStart; const nowMin = now.getHours()*60 + now.getMinutes();
-      const nowLine = document.getElementById('now-line');
-      const slots = document.getElementById('slots');
-      if(nowMin < dayStart || nowMin > dayEnd){ nowLine.style.display='none'; } else { nowLine.style.display='block'; const xPct = (nowMin - dayStart) / total * 100; nowLine.style.left = `calc(${xPct}% + 12px)`; }
-
-      const entries = getTodaysEntries(today);
-      const tbody = document.querySelector('#schedule tbody'); tbody.querySelectorAll('tr').forEach(t=>t.classList.remove('current-row'));
-      slots.querySelectorAll('.slot').forEach(s=>s.classList.remove('current'));
-      entries.forEach((e,idx)=>{
-        const s = parseTime(e.start); const en = parseTime(e.end);
-        const startMin = s.hh*60 + s.mm; const endMin = en.hh*60 + en.mm;
-        if(nowMin >= startMin && nowMin < endMin){
-          const slot = slots.querySelector(`.slot[data-idx="${idx}"]`); if(slot) slot.classList.add('current');
-          tbody.querySelectorAll('tr').forEach(tr=>{ if(tr.firstElementChild && tr.firstElementChild.textContent.trim().startsWith(e.start)) tr.classList.add('current-row'); });
-        }
-      });
-    }
-
-    function renderScheduleForToday(){
-      const tbody = document.querySelector('#schedule tbody'); tbody.innerHTML = '';
-      const now = new Date();
-      const today = now.getDay(); // 0=Sun,1=Mon
-      const names = {1:'Mandag',2:'Tirsdag',3:'Onsdag',4:'Torsdag',5:'Fredag'};
-      const header = document.querySelector('#schedule h2');
-      header.textContent = `Timeplan — ${names[today] || 'Uke'}`;
-      const entries = getTodaysEntries(today);
-      if(entries.length === 0){
-        tbody.innerHTML = '<tr><td colspan="4" class="muted">Ingen timer i dag</td></tr>';
-        document.getElementById('slots').innerHTML = '';
-        return;
-      }
-      for(const e of entries){
-        const tr = document.createElement('tr');
-        const short = abbrev[e.title] || e.title;
-        tr.innerHTML = `<td>${e.start} - ${e.end}</td><td title="${e.title}">${short}</td><td>${e.room || ''}</td><td>${e.teacher || ''}</td>`;
-        tbody.appendChild(tr);
-      }
-      renderTimetableGrid(); renderSlotsForToday(); updateNowLineAndHighlight();
-    }
-
-    // Next class logic
-    function getNextClass(){
-      const now = new Date();
-      const today = now.getDay();
-      const todayEntries = getTodaysEntries(today);
-      for(const s of todayEntries){
-        const d = new Date(now);
-        const t = parseTime(s.start); d.setHours(t.hh, t.mm, 0, 0);
-        if(d > now) return {when:d, title:s.title};
-      }
-      // look ahead week days
-      const future = schedule.filter(s => s.day > today).sort((a,b)=> a.day - b.day || parseTime(a.start).hh - parseTime(b.start).hh || parseTime(a.start).mm - parseTime(b.start).mm);
-      if(future.length){
-        const s = future[0];
-        const d = new Date(now); d.setDate(now.getDate() + (s.day - today)); const t = parseTime(s.start); d.setHours(t.hh, t.mm, 0, 0);
-        return {when:d, title:s.title};
-      }
-      return null;
-    }
-
-    // clock & now card
-    const nowTimeEl = document.getElementById('now-time');
-    const nowNextEl = document.getElementById('now-next');
-    function updateNow(){
-      const now = new Date();
-      nowTimeEl.textContent = now.toLocaleTimeString('no-NO');
-      const next = getNextClass();
-      if(next){
-        const diff = Math.max(0, Math.floor((next.when - now)/1000));
-        const hh = String(Math.floor(diff/3600)).padStart(2,'0');
-        const mm = String(Math.floor(diff%3600/60)).padStart(2,'0');
-        const ss = String(diff%60).padStart(2,'0');
-        nowNextEl.textContent = `${next.title} om ${hh}:${mm}:${ss}`;
-      } else {
-        nowNextEl.textContent = 'Ingen flere timer denne uken';
-      }
-    }
-
-    // initial render + interval
-    renderScheduleForToday();
-    updateNow();
-    setInterval(()=>{
-      updateNow();
-      updateNowLineAndHighlight();
-      // re-render schedule on midnight -> day change
-      const now = new Date();
-      if(now.getHours()===0 && now.getMinutes()===0 && now.getSeconds()<2) renderScheduleForToday();
-    },1000);
-
-    // reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.12});
-    reveals.forEach(r=>io.observe(r));
-
-    // progress bar
-    const progress = document.getElementById('scroll-progress');
-    function updateProgress(){ const h = document.documentElement; const percent = (h.scrollTop || document.body.scrollTop) / (h.scrollHeight - h.clientHeight) * 100; progress.style.width = percent + '%'; }
-    window.addEventListener('scroll', ()=>{ requestAnimationFrame(updateProgress); });
-    updateProgress();
-
-    // header parallax subtle
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', ()=>{ const y = window.scrollY; header.style.transform = `translateY(${Math.min(12,y*0.02)}px)`; });
-
-    // fill year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Weather widget loader (as in your original)
-    (function(d,s,id){
-      var js,fjs=d.getElementsByTagName(s)[0];
-      if(!d.getElementById(id)){ js=d.createElement(s); js.id=id; js.src='https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js,fjs); }
-    })(document,'script','weatherwidget-io-js');
-  </script>
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 </html>
