@@ -1,0 +1,327 @@
+/* Smooth animations and effects */
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 800ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger reveal animations */
+.reveal:nth-child(1) { transition-delay: 0ms; }
+.reveal:nth-child(2) { transition-delay: 100ms; }
+.reveal:nth-child(3) { transition-delay: 200ms; }
+.reveal:nth-child(4) { transition-delay: 300ms; }
+.reveal:nth-child(5) { transition-delay: 400ms; }
+.reveal:nth-child(6) { transition-delay: 500ms; }
+
+/* Loading animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Glow pulse animation */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0,255,136,0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0,255,136,0.6), 0 0 30px rgba(0,255,136,0.3);
+  }
+}
+
+/* Neon text glow animation */
+@keyframes neonGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+  50% {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor;
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Background gradient animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Typing animation */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blinkCursor {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--neon-green);
+  }
+}
+
+/* Hover animations */
+.card {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.btn {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 500ms ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* Project card animations */
+.project {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.project:hover {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Skill item animations */
+.skill-item {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+  transform: translateX(-100%);
+  transition: transform 300ms ease;
+}
+
+.skill-item:hover::before {
+  transform: translateX(0);
+}
+
+/* Experience item animations */
+.experience-item {
+  transition: all 300ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,136,0.05), transparent);
+  transition: left 600ms ease;
+}
+
+.experience-item:hover::after {
+  left: 100%;
+}
+
+/* Avatar animation */
+.avatar {
+  transition: all 400ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  animation: float 6s ease-in-out infinite;
+}
+
+.avatar:hover {
+  animation: glowPulse 1.5s ease-in-out infinite, float 6s ease-in-out infinite;
+}
+
+/* Link animations */
+.link-pill {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.link-pill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+  opacity: 0;
+  transition: opacity 300ms ease;
+  z-index: -1;
+}
+
+.link-pill:hover::before {
+  opacity: 0.1;
+}
+
+/* Progress bar animation */
+#scroll-progress {
+  transition: width 100ms ease-out;
+}
+
+/* Typing effect for hero text */
+.typing-effect {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 2px solid var(--neon-green);
+  white-space: nowrap;
+  animation: typewriter 3s steps(40, end), blinkCursor 1s step-end infinite;
+}
+
+/* Parallax animations */
+.parallax-bg {
+  animation: gradientShift 20s ease infinite;
+  background-size: 400% 400%;
+}
+
+/* Header entrance animation */
+header {
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-left > * {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.hero-left > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.hero-left > *:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.hero-left > *:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.hero-right {
+  animation: slideInRight 0.8s ease-out;
+  animation-delay: 0.3s;
+}
+
+/* Glowing border effect */
+@keyframes glowingBorder {
+  0% {
+    border-color: var(--glass-border);
+    box-shadow: var(--shadow);
+  }
+  50% {
+    border-color: var(--neon-green);
+    box-shadow: var(--shadow), 0 0 20px rgba(0,255,136,0.3);
+  }
+  100% {
+    border-color: var(--glass-border);
+    box-shadow: var(--shadow);
+  }
+}
+
+.card.featured {
+  animation: glowingBorder 3s ease-in-out infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, textarea, select {
+  transition: all 300ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+/* Performance optimizations */
+.card, .btn, .project, .skill-item, .experience-item, .link-pill {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .card, .btn, .project, .skill-item, .experience-item, .avatar, .link-pill {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .parallax-bg {
+    animation: none !important;
+  }
+  
+  .typing-effect {
+    animation: none !important;
+    border-right: none !important;
+  }
+}
